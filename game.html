@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //当前的牙签
+      const arr = [3, 5, 7];
+      //玩家
+      const play = ["playA", "playB"];
+      //当前玩家
+      let nowPlay = play[0];
+      //检查当前是否输了
+      function checkDefeated(arr) {
+        return arr.some((item) => item > 0);
+      }
+      //拿牙签
+      function take(row, num) {
+        if (Number.isNaN(row) || Number.isNaN(num)) {
+          throw "输入错误,请输入正确的数字";
+        }
+        if (arr[row] <= 0) {
+          throw "这一行没有了";
+        }
+        if (arr[row] < num) {
+          throw "超过了这行剩余的数量";
+        }
+        arr[row] -= num;
+        if (!checkDefeated(arr)) {
+          return "游戏结束";
+        }
+        return "游戏继续";
+      }
+      //开始循环
+      while (true) {
+        const row = Number(prompt(`请输入${nowPlay}号玩家在第几行拿牙签`));
+        const num = Number(
+          prompt(`请输入${nowPlay}号玩家在第${row}行拿多少牙签`)
+        );
+        try {
+          const value = take(row - 1, num);
+          if (value === "游戏结束") {
+            alert(`${nowPlay}号玩家,你输了`);
+            break;
+          }
+        } catch (error) {
+          alert(error);
+          continue;
+        }
+        nowPlay = nowPlay === play[0] ? play[1] : play[0];
+      }
+    </script>
+  </body>
+</html>
